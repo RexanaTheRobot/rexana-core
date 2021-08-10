@@ -7,9 +7,6 @@ Project Home Page:
 https://www.rexana-robot.com
 
 
-## Getting Started
-...
-
 ### Installing
 	pip install -r requirements.txt
 
