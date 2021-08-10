@@ -1,0 +1,430 @@
+{% extends "index.html" %}
+
+{% block extra_style %}
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial;
+  font-size: 17px;
+  background: #000;
+}
+
+#video {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  min-width: 100%;
+  min-height: 100%;
+}
+
+.content {
+  position: fixed;
+  bottom: 0;
+  color: #f1f1f1;
+  width: 100%;
+  padding: 20px;
+}
+
+video.left {
+  transition: .5s;
+  -webkit-transform: rotate(3deg);
+  overflow: hidden
+}
+
+video.right {
+  transition: .5s;
+  -webkit-transform: rotate(-3deg);
+  overflow: hidden
+}
+
+video.stright {
+  transition: .5s;
+  -webkit-transform: rotate(0deg);
+  overflow: hidden
+}
+
+.hidden-buttons {
+  display: none;
+}
+
+div#rexana {
+  position: absolute;
+  display: block;
+  margin: 0 auto;
+  left: 45%;
+  bottom: 10%;
+  transform: rotate(-9deg) matrix(1, 0.18, 0, 0.91, 0, 0)
+}
+
+#rexana.right {
+  transition: .5s;
+  margin-top: 150px;
+  transform: rotate(2deg) matrix(1, 0, 0, 1, 0, 0);
+}
+
+#rexana.left {
+  transition: .5s;
+  margin-top: 150px;
+  transform: rotate(-10deg) matrix(1, 0, 0, 1, 0, 0);
+}
+
+#rexana.straight {
+  transition: .53s;
+  margin-top: 150px;
+  transform: rotate(-9deg) matrix(1, 0.18, 0, 1.05, 0, 0)
+}
+
+div#buttons {
+  float: right;
+  margin: 50px 50px;
+}
+
+#buttons button {
+  background: rgba(255, 255, 255, 0.51);
+  border-radius: 50px;
+  width: 60px;
+  height: 60px;
+  border: 2px solid #fff;
+  outline: 0;
+  bottom: 80px;
+  right: 100px;
+  position: absolute;
+}
+
+button i {
+  color: #fff;
+}
+
+.green {
+  color: lightgreen;
+}
+
+.blue {
+  color: lightblue;
+}
+
+.orange {
+  color: lightcoral;
+}
+
+.red {
+  color: orangered;
+}
+
+/*floating button*/
+.main .fa {
+    font-size: 20px;
+}
+.main{
+  color:#222;
+  z-index:1000;
+  position:absolute;
+  width:65px;
+  height:65px;
+  bottom:160px;
+  float:right;
+  right:200px;
+  display: table-cell;
+  vertical-align: middle;
+  background-color:#00affd;
+  text-align: center;
+  box-shadow:1px 2px 10px #555;
+  border-radius:100%;
+  color:#fff;
+  transition: all 0.5s cubic-bezier(0.680, -0.550, 0.265, 1.550); 
+  cursor:pointer;
+}
+.main{
+line-height:65px !important;
+}
+.main:focus > .cir {
+  opacity:1;
+  width:100px;
+  height:100px;
+   transform-style: preserve-3d;
+}
+.main p{
+    position: relative;
+    border-radius: 3px;
+    text-align: center;
+    font-size: 12px;
+    margin: 20px auto;
+    line-height: 15px;
+    overflow-wrap: break-word;
+    max-width: 40px;
+}
+.main:hover > p{
+opacity:1;
+}
+.cir{
+  z-index:2;
+  opacity:0;
+  position:absolute;
+  right:75px;
+  bottom:10%;
+  border-radius:100%;
+  transition: all 0.5s cubic-bezier(0.680, -0.550, 0.265, 1.550); 
+}
+
+*{outline:none;}
+
+</style>
+{% end %}
+
+{% block body %}
+
+<img id="cam">test</img>
+
+<div class="video-wrapper">   
+  <video id="video" loop>
+    <source src="https://res.cloudinary.com/learncube/video/upload/v1594497743/Rexana/tron-grid.webm">
+  </video>
+</div>
+
+<div id="zone_joystick"></div>
+
+<div class="content">
+  <div id="rexana" class="straight">
+    <image src="https://res.cloudinary.com/learncube/image/upload/v1595538088/Rexana/rexana.png"/>
+  </div>
+  <div class="hidden-buttons">
+    <button id="speed-2">-2</button>
+    <button id="speed-1">-1</button>
+    <button id="speed0">0</button>
+    <button id="speed1">+1</button>
+    <button id="speed2">+2</button>
+    <form onsubmit="return sendMessage()">
+        <input id="message" type="text" style="width: 70%;"><button style="width: 25%">Send</button>
+    </form>
+  </div>
+  
+  <div id="buttons">
+    <div class="main primary" tabindex="1"><i class="fa fa-2x fa-smile-plus"></i>
+      <div class="cir">
+      <a data-action="walk" class="action main" style="right:0px;bottom:0;"><p>Walk</p></a>
+      <a data-action="hug " class="action main" style="right:70px;bottom:0;"><p>Hug</p></a>
+      <a data-action="clap" class="action main" style="right:140px;bottom:0;"><p>Clap</p></a>
+      <a data-action="shakehands" class="action main" style="right:210px;bottom:0;"><p>Hand Shake</p></a>
+      <a data-action="wave" class="action main" style="right:280px;bottom:0;"><p>Wave</p></a>
+      <a data-action="flex" class="action main" style="right:350px;bottom:0;"><p>Flex</p></a>
+      <a data-action="wings1" class="action main" style="right:420px;bottom:0;"><p>Wings 1</p></a>
+      <a data-action="wings2" class="action main" style="right:490px;bottom:0;"><p>Wings 2</p></a>
+      <a data-action="dance1" class="action main" style="right:560px;bottom:0;"><p>Dance 1</p></a>
+      <a data-action="dance2" class="action main" style="right:630px;bottom:0;"><p>Dance 2</p></a>
+      <a data-action="dance3" class="action main" style="right:700px;bottom:0;"><p>Dance 3</p></a>
+      <a data-action="resetAll" class="action main" style="right:770px;bottom:0;"><p>Reset</p></a>
+      </div>
+    </div>
+  </div>
+        
+  <div id="dir_x"></div>
+  <div id="dir_y"></div>
+  <div id="dir_angle"></div>
+  <div id="speed"></div>
+  <div id="messages"></div>
+</div>
+
+{%end%}
+
+{% block extra_script %}
+    <script>
+    //var serverSocket = "ws://raspberrypi.local/ws"
+    var serverSocket = "ws://192.168.178.32/ws"
+    var ws = new WebSocket(serverSocket);
+    var action = "default"
+    var cam = document.getElementById("cam");
+ 
+    function sendMessage() {
+        var messageInput = document.getElementById("message");
+        var message = messageInput.value;
+        var payload = {
+            "message": message,
+            "action": action
+        }
+        // Make the request to the WebSocket.
+        console.log(JSON.stringify(payload))
+        ws.send(JSON.stringify(payload));
+        // Clear the message from the input.
+        messageInput.value = "";
+        return false;
+    }
+ 
+    ws.onmessage = function(evt) {
+        console.log(evt.data)
+        cam.src = "data:image/jpeg;base64," + evt.data;
+
+        var messageDict = JSON.parse(evt.data);
+        console.log("got msg")
+        console.log(evt.data)
+        json = JSON.parse(evt.data)
+    
+        if(json['action'] === "battery"){
+          console.log('update icon')
+          $("#battery").removeClass();
+          $("#battery").addClass("fal fa-battery-"+json['message']);
+        }
+        // Create a div with the format `user: message`.
+        var messageBox = document.createElement("div");
+        messageBox.innerHTML = messageDict.action + ": " + messageDict.message;
+        $("messages").text(messageBox);
+        };
+
+    ws.onclose = function(e) {
+      console.log('Socket is closed. Reconnect will be attempted in 10 seconds.', e.reason);
+      setTimeout(function() {
+      window.location.reload();
+    }, 100);
+  };
+
+
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<!--joystick UI-->
+<script src="https://cdn.jsdelivr.net/npm/nipplejs@0.8.5/dist/nipplejs.min.js"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  document.body.requestFullscreen();
+});
+
+var video = document.getElementById('video');
+var log = document.getElementById('log');
+var intervalRewind;
+//var startSystemTime;
+//var startVideoTime;
+
+$(video).on('play',function(){
+    video.playbackRate = 1.0;
+    clearInterval(intervalRewind);
+});
+$(video).on('ended',function(){
+    // this only happens when t=duration (not t==0)
+    video.playbackRate = 1.0;
+    video.currentTime = 5.0;
+       rewind(1.0);
+});
+$(video).on('pause',function(){
+    video.playbackRate = 1.0;
+    clearInterval(intervalRewind);
+});
+$("#speed0").click(function() {
+    clearInterval(intervalRewind);
+    video.playbackRate = 1.0;
+    video.pause();
+});
+
+$("#speed1").click(function() {
+    clearInterval(intervalRewind);
+    video.playbackRate = 1.0;
+    if (video.paused) video.play();
+});
+$("#speed2").click(function() {
+    clearInterval(intervalRewind);
+    video.playbackRate = 2.0;
+    if (video.paused) video.play();
+});
+
+$("#speed-1").click(function() {
+   rewind(1.0);
+});
+$("#speed-2").click(function() {
+   rewind(2.0);
+});
+
+
+function rewind(rewindSpeed) {    
+   clearInterval(intervalRewind);
+   var startSystemTime = new Date().getTime();
+   var startVideoTime = video.currentTime;
+   
+   intervalRewind = setInterval(function(){
+       video.playbackRate = 1.0;
+       if(video.currentTime == 0){
+           clearInterval(intervalRewind);
+           video.currentTime == 5
+       } else {
+           var elapsed = new Date().getTime()-startSystemTime;
+           video.currentTime = Math.max(startVideoTime - elapsed*rewindSpeed/1000.0, 0);
+       }
+   }, 30);
+} 
+</script>
+
+
+
+<script type="text/javascript">
+  var joystick = nipplejs.create({
+    zone: document.getElementById('zone_joystick'),
+    mode: 'static',
+    position: {left: '15%', bottom: '35%'},
+    color: '#fff'
+  });
+
+  joystick.on("move end", function (evt, data) {
+      if(evt.type==="end"){
+        $("#speed0").click();
+        $("#rexana").removeClass("straight").removeClass("right").removeClass("left") 
+        $("video").addClass("straight").removeClass("right").removeClass("left")
+        payload = {
+        "message":"stop",
+        "action": "motor_stop",
+        }
+        console.log(JSON.stringify(payload))
+        ws.send(JSON.stringify(payload));
+  }
+
+  if(evt.type==="move"){
+    if(data.direction.angle === "down"){
+      $("#rexana").removeClass("straight").removeClass("right").removeClass("left")
+      $("#speed-1").click();
+    }else{
+      $("#rexana").addClass("straight")
+      $("#speed1").click()
+    }
+    if(data.direction.angle === "right"){
+      $("#rexana").removeClass("straight").removeClass("left").addClass("right")
+      $("video").removeClass("straight").removeClass("left").addClass("right")
+    }
+    if(data.direction.angle === "left"){
+      $("#rexana").removeClass("straight").removeClass("right").addClass("left")
+      $("video").removeClass("straight").removeClass("right").addClass("left")
+    }
+    if(data.direction.angle === "up"||data.direction.angle === "down"){
+      $("#rexana").removeClass("right").removeClass("left")
+      $("video").addClass("straight").removeClass("right").removeClass("left")
+    }
+    $("#dir_x").text(data.direction.x)  
+    $("#dir_y").text(data.direction.y)
+    $("#dir_angle").text(data.direction.angle)  
+    $("#speed").text(data.distance)
+
+    motor = {"angle": data.angle.degree, "radian": data.angle.radian, "speed":data.force}
+    payload = {
+            "message": motor,
+            "action": "motor_start",
+            }
+              
+    console.log(JSON.stringify(payload))
+    ws.send(JSON.stringify(payload));
+  
+     }
+  });
+
+  $(".action").on('click',function(){
+    var action = $(this).attr("data-action");
+    console.log(action)
+    payload = {
+            "message": action,
+            "action": "arm_action"
+            }
+    ws.send(JSON.stringify(payload));
+});
+
+</script>
+
+{% end %}
+

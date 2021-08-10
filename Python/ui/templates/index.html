@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Rexana App</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+
+div#status-icons {
+    position: relative;
+    display: initial;
+    color: #fff;
+    float: right;
+    margin: 20px;
+}
+
+div#logo img {
+    max-height: 60px;
+}
+
+div#logo {
+    position: absolute;
+    z-index: 99;
+    background: rgba(0,0,0,0.1);
+    width: 100%;
+}
+
+</style>
+
+{% block extra_style %}
+{% end %}
+
+<body>
+    <div id="logo">
+        <div id="status-icons">
+        	<i id="battery" class="fal fa-battery-full"></i>
+        </div>
+        <img src="https://res.cloudinary.com/learncube/image/upload/v1595538088/Rexana/rexana_logo.png"/>
+    </div>
+
+    {%block body %}
+    {%end%}
+    <script src="https://kit.fontawesome.com/8e29ca3058.js" crossorigin="anonymous"></script>
+    {% block extra_script %}
+    {% end %}
+
+    </body>
+</html>

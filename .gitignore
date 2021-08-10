@@ -127,3 +127,22 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+
+# misc
+.DS_Store
+
+# creds
+.google_key.json
+settings.py
+
+#azure
+config.json
+
+# media
+*.mp4
+&.webm
+*.jpg
+*.jpeg
+*.png
+
