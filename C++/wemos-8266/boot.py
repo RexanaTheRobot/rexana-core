@@ -17,7 +17,7 @@ def wifi_connect():
     wlan.config(dhcp_hostname='ESP32 breadboard')
     if not wlan.isconnected():
         print('connecting to network...')
-        wlan.connect('FRITZ!Box 7530 XD', '33233694804488062533')
+        wlan.connect('SSID', 'PASS')
         while not wlan.isconnected():
             pass
     print('network config:', wlan.ifconfig())
